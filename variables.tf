@@ -45,8 +45,3 @@ variable "extra_security_group_ids" {
   default     = []
 }
 
-variable "publicly_accessible" {
-  description = "Expor endpoint publico (so para debug pontual na demo; manter false)"
-  type        = bool
-  default     = false
-}

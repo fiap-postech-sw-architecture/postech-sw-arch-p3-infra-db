@@ -13,6 +13,3 @@ db_password = "troque-esta-senha"
 
 # SG dos nodes do EKS (repo principal), se preferir liberar por SG:
 # extra_security_group_ids = ["sg-0123456789abcdef0"]
-
-# Endpoint publico so para debug pontual:
-# publicly_accessible = false

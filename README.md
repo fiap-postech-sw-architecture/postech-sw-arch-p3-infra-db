@@ -47,6 +47,8 @@ make gate   # terraform fmt -check + init -backend=false + validate
 
 ### Deploy (requer Learner Lab ativo)
 
+Ordem multi-repo: `infra-db → infra-k8s → app (repo p3) → lambda/gateway` — o gateway precisa da URL pública do app (o ADR-033 receberá adendo).
+
 1. **Start Lab** no AWS Academy e copie as credenciais (AWS Details) para o profile `academy` em `~/.aws/credentials` — runbook completo em `aws-academy-setup.md` no repo `postech-sw-arch-p3-docs`.
 2. Copie `terraform.tfvars.example` para `terraform.tfvars` e defina `db_password`.
 3. Provisione:
@@ -63,6 +65,7 @@ Outputs: `endpoint`, `port` e `database_url` (montada **sem a senha** — o cons
 
 - **CI** (`.github/workflows/ci.yml`): fmt-check + validate em todo push/PR, sem credenciais.
 - **CD** (`.github/workflows/cd.yml`): push em `homolog` → `terraform plan`; push em `main` → `terraform apply -auto-approve`. Requer secrets `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_SESSION_TOKEN` e `TF_VAR_DB_PASSWORD` — as credenciais do Academy **rotacionam a cada Start Lab** e precisam ser atualizadas antes de cada execução (ver comentário no topo do workflow).
+- Push em `homolog` roda `terraform plan` (estágio de homologação de infra); apply automático só na `main`: com um único Learner Lab e budget mínimo, ambiente homolog duplicado de infra é inviável (adendo do ADR-033).
 
 ## Status e pendências
 
@@ -70,3 +73,4 @@ Outputs: `endpoint`, `port` e `database_url` (montada **sem a senha** — o cons
 - Cota de GitHub Actions da organização esgotada: o CD está documentado mas a demo usa `make plan/apply` local.
 - **Migração de dados/schema não é deste repo**: as migrações Alembic rodam a partir do repo principal (`postech-sw-arch-p3`) apontando a `DATABASE_URL` para o endpoint deste RDS.
 - Integração fina com o EKS (SG dos nodes em `extra_security_group_ids`) depende do provisionamento do cluster no repo de infra correspondente.
+- Dockerfile/Swagger: n/a — repo 100% Terraform, sem artefato conteinerizável nem API própria.

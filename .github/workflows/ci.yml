@@ -4,7 +4,11 @@ name: CI
 
 on:
   push:
+    branches: [main, homolog]
   pull_request:
+
+permissions:
+  contents: read
 
 jobs:
   gate:
@@ -14,7 +18,7 @@ jobs:
 
       - uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: "~1.9"
+          terraform_version: "1.9.x"
 
       - name: fmt-check
         run: terraform fmt -check -recursive

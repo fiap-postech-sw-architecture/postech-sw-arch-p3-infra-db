@@ -4,16 +4,19 @@
 # plan/apply/destroy requerem credenciais do Learner Lab ativas no profile
 # "academy" (Start Lab -> AWS Details -> ~/.aws/credentials).
 
-.PHONY: fmt validate gate plan apply destroy
+.PHONY: fmt fmt-check validate gate plan apply destroy
 
 fmt:
+	terraform fmt -recursive
+
+fmt-check:
 	terraform fmt -check -recursive
 
 validate:
 	terraform init -backend=false -input=false
 	terraform validate
 
-gate: fmt validate
+gate: fmt-check validate
 
 # Requer credenciais: Start Lab e atualize o profile academy antes.
 plan:

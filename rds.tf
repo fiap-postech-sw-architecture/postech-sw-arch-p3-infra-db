@@ -35,13 +35,7 @@ resource "aws_security_group" "db" {
   description = "Acesso PostgreSQL ao RDS do PytStop"
   vpc_id      = data.aws_vpc.default.id
 
-  egress {
-    description = "Saida liberada (respostas e manutencao do engine)"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  # Sem egress: SG e stateful (respostas passam) e o RDS nao origina trafego.
 }
 
 resource "aws_vpc_security_group_ingress_rule" "postgres_cidr" {
@@ -91,7 +85,7 @@ resource "aws_db_instance" "pytstop" {
 
   db_subnet_group_name   = aws_db_subnet_group.pytstop.name
   vpc_security_group_ids = [aws_security_group.db.id]
-  publicly_accessible    = var.publicly_accessible
+  publicly_accessible    = false # fixo: RFC-003 proibe exposicao publica do banco
 
   skip_final_snapshot = true  # lab efemero: nada a preservar no destroy
   deletion_protection = false # idem: destroy pos-demo sem fricao
