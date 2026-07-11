@@ -1,0 +1,21 @@
+# State local (decisao: sem backend remoto — lab efemero) e cache do init.
+# NUNCA versionar: o state contem a senha do banco em claro.
+*.tfstate
+*.tfstate.*
+.terraform/
+crash.log
+crash.*.log
+
+# Valores locais (contem a senha). O .example versionado documenta o formato.
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+
+# Overrides locais
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+.terraformrc
+terraform.rc

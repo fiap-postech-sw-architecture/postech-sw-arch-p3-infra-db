@@ -1,0 +1,25 @@
+# CI offline: fmt + validate, sem credenciais AWS (init -backend=false nao
+# toca a conta). Roda em qualquer push/PR.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~1.9"
+
+      - name: fmt-check
+        run: terraform fmt -check -recursive
+
+      - name: validate
+        run: |
+          terraform init -backend=false -input=false
+          terraform validate

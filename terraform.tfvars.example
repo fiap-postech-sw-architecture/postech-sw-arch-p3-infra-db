@@ -1,0 +1,18 @@
+# Copie para terraform.tfvars (fora do git) e preencha.
+# So db_password e obrigatorio — o resto tem default sensato.
+
+db_password = "troque-esta-senha"
+
+# db_username    = "pytstop"
+# db_name        = "pytstop"
+# instance_class = "db.t3.micro"
+# aws_profile    = "academy"
+
+# CIDRs com acesso ao 5432 (vazio = CIDR da default VPC):
+# allowed_cidr_blocks = ["172.31.0.0/16"]
+
+# SG dos nodes do EKS (repo principal), se preferir liberar por SG:
+# extra_security_group_ids = ["sg-0123456789abcdef0"]
+
+# Endpoint publico so para debug pontual:
+# publicly_accessible = false

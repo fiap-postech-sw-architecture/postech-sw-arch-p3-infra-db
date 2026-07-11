@@ -1,0 +1,55 @@
+# CD do banco — ATENCAO: a cota de GitHub Actions da organizacao esta
+# esgotada E as credenciais do AWS Academy rotacionam a cada Start Lab
+# (os secrets AWS_* precisam ser atualizados manualmente antes de cada
+# execucao — runbook aws-academy-setup.md no repo postech-sw-arch-p3-docs).
+# Na pratica a demo usa `make plan/apply` local; este workflow existe para
+# cumprir o requisito de CI/CD do repo dedicado e documentar o fluxo.
+#
+# homolog: plan (dry-run). main: apply -auto-approve.
+# Nota: state local por decisao (lab efemero) — cada run do Actions parte
+# de state vazio; o fluxo assume infra criada/destruida num mesmo ciclo.
+name: CD
+
+on:
+  push:
+    branches: [homolog, main]
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+  AWS_REGION: us-east-1
+  TF_VAR_db_password: ${{ secrets.TF_VAR_DB_PASSWORD }}
+  # Credenciais vem do ambiente, nao do profile local "academy"
+  TF_VAR_aws_profile: ""
+
+jobs:
+  plan:
+    if: github.ref == 'refs/heads/homolog'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~1.9"
+
+      - name: plan
+        run: |
+          terraform init -input=false
+          terraform plan -input=false
+
+  apply:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~1.9"
+
+      - name: apply
+        run: |
+          terraform init -input=false
+          terraform apply -auto-approve -input=false
