@@ -8,6 +8,7 @@ Updated by AI agents at task end per `postech-ai-helper/ai/canonical/task-end-re
 
 ## Recent decisions
 
+- 2026-09-06 - State remoto substitui a decisao inicial de state local: backend S3 `pytstop-terraform-state-924563550535` na chave `rds/terraform.tfstate`, versionamento no bucket e lock nativo (`use_lockfile`, Terraform >=1.10); execucao local e Actions compartilham o mesmo state sem DynamoDB
 - 2026-07-11 - Bootstrap fase 3: repo dedicado do banco gerenciado (RDS PostgreSQL 16, db.t3.micro single-AZ na default VPC) - restricoes do AWS Academy: sem IAM novo, sem Secrets Manager (senha via variavel sensitive), state local sem backend remoto - ADR-026/031 no repo principal
 
 ## Discovered conventions

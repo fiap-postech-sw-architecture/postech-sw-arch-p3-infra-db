@@ -6,7 +6,6 @@ db_password = "troque-esta-senha"
 # db_username    = "pytstop"
 # db_name        = "pytstop"
 # instance_class = "db.t3.micro"
-# aws_profile    = "academy"
 
 # CIDRs com acesso ao 5432 (vazio = CIDR da default VPC):
 # allowed_cidr_blocks = ["172.31.0.0/16"]
