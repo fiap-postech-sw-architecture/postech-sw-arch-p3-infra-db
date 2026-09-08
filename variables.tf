@@ -3,12 +3,6 @@
 # Valores locais vao em terraform.tfvars (fora do git — ver .gitignore e
 # terraform.tfvars.example); no CD, via TF_VAR_* nos secrets do Actions.
 
-variable "aws_profile" {
-  description = "Profile AWS local com as credenciais do Learner Lab"
-  type        = string
-  default     = "academy"
-}
-
 variable "db_name" {
   description = "Nome do database inicial criado pelo RDS"
   type        = string
@@ -44,4 +38,3 @@ variable "extra_security_group_ids" {
   type        = list(string)
   default     = []
 }
-

@@ -1,8 +1,7 @@
 # Alvos da infraestrutura do banco (fase 3).
 #
 # gate roda offline (sem credenciais): fmt + validate com init -backend=false.
-# plan/apply/destroy requerem credenciais do Learner Lab ativas no profile
-# "academy" (Start Lab -> AWS Details -> ~/.aws/credentials).
+# plan/apply/destroy requerem credenciais do Learner Lab na cadeia padrao.
 
 .PHONY: fmt fmt-check validate gate plan apply destroy
 
@@ -18,16 +17,17 @@ validate:
 
 gate: fmt-check validate
 
-# Requer credenciais: Start Lab e atualize o profile academy antes.
+# Requer credenciais: Start Lab e atualize a cadeia padrao antes.
 plan:
-	AWS_PROFILE=academy terraform init -input=false
-	AWS_PROFILE=academy terraform plan
+	terraform init -input=false
+	terraform plan
 
 # Requer credenciais (idem plan).
 apply:
-	AWS_PROFILE=academy terraform init -input=false
-	AWS_PROFILE=academy terraform apply
+	terraform init -input=false
+	terraform apply
 
 # Requer credenciais. Obrigatorio pos-demo (budget do Academy).
 destroy:
-	AWS_PROFILE=academy terraform destroy
+	terraform init -input=false
+	terraform destroy
