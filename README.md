@@ -71,7 +71,7 @@ Os comandos locais e o CD compartilham o mesmo state remoto. Não inicie `plan`,
 
 ## Status e pendências
 
-- ⏳ Aguardando o primeiro `make apply` real — `make gate` verde localmente e no CI.
+- ✅ RDS PostgreSQL 16.13 privado e `available`; [CD automático de produção](https://github.com/fiap-postech-sw-architecture/postech-sw-arch-p3-infra-db/actions/runs/34177626665) verde em 07/09/2026.
 - **Migração de dados/schema não é deste repo**: as migrações Alembic rodam a partir do repo principal (`postech-sw-arch-p3`) apontando a `DATABASE_URL` para o endpoint deste RDS.
-- Integração fina com o EKS (SG dos nodes em `extra_security_group_ids`) depende do provisionamento do cluster no repo de infra correspondente.
+- Integração com o EKS validada no ambiente AWS; o acesso permanece restrito pelos security groups configurados no Terraform.
 - Dockerfile/Swagger: n/a — repo 100% Terraform, sem artefato conteinerizável nem API própria.
