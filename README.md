@@ -69,6 +69,10 @@ Os comandos locais e o CD compartilham o mesmo state remoto. Não inicie `plan`,
 - **CD** (`.github/workflows/cd.yml`): push em `homolog` → `terraform plan`; push em `main` → `terraform apply -auto-approve`. As branches são serializadas sobre o único state S3 com lock nativo. Requer secrets `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_SESSION_TOKEN` e `TF_VAR_DB_PASSWORD` — as credenciais do Academy **rotacionam a cada Start Lab** e precisam ser atualizadas antes de cada execução (ver comentário no topo do workflow).
 - Push em `homolog` roda `terraform plan` (estágio de homologação de infra); apply automático só na `main`: com um único Learner Lab e budget mínimo, ambiente homolog duplicado de infra é inviável (adendo do ADR-033).
 
+### Governança da `main`
+
+A `main` é protegida: só recebe mudança por pull request, com o check `gate` verde, e a regra vale também para administradores (force-push e exclusão bloqueados). O merge é sempre squash, com o número do PR no título. A política completa, como conferir a proteção sem permissão de administrador e a auditoria do histórico estão em [Disciplina de PR](https://github.com/fiap-postech-sw-architecture/postech-sw-arch-p3/blob/main/docs/governanca/disciplina-de-pr.md); a visão geral da fase 3 está no [índice da fase 3](https://github.com/fiap-postech-sw-architecture/postech-sw-arch-p3/blob/main/docs/fase3/README.md).
+
 ## Status e pendências
 
 - ✅ RDS PostgreSQL 16.13 privado e `available`; [CD automático de produção](https://github.com/fiap-postech-sw-architecture/postech-sw-arch-p3-infra-db/actions/runs/34177626665) verde em 07/09/2026.
